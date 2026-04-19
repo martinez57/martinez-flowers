@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Martinez’s Flower Designs 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Pacifico', cursive;
+background:linear-gradient(#e6f2ff,#cce0ff);
+color:#1a3d7c;
+overflow-x:hidden;
+}
+
+/* HERO */
+.hero{
+height:90vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero h1{
+font-size:40px;
+margin:0;
+}
+
+.hero p{
+font-size:18px;
+margin:10px 0;
+}
+
+.hero button{
+padding:12px 20px;
+font-size:16px;
+background:#4d8dff;
+color:white;
+border:none;
+border-radius:12px;
+}
+
+/* FLOAT EMOJIS */
+.float{
+position:fixed;
+font-size:20px;
+animation:up 6s linear infinite;
+}
+@keyframes up{
+0%{transform:translateY(100vh);opacity:0;}
+10%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* SECTIONS */
+section{
+padding:40px 15px;
+text-align:center;
+}
+
+.card{
+background:white;
+margin:10px auto;
+padding:15px;
+max-width:420px;
+border-radius:15px;
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
+
+button{
+background:#2f5fbf;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+margin:5px;
+}
+
+/* SUMMARY */
+#summary{
+white-space:pre-wrap;
+text-align:left;
+background:#f5faff;
+padding:10px;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+<h1>💙 Martinez’s Flower Designs 💙</h1>
+<p>Luxury bouquets made with love 🎀</p>
+<button onclick="scrollToShop()">Shop Now</button>
+</div>
+
+<!-- FLOAT -->
+<script>
+setInterval(()=>{
+let e=document.createElement("div");
+e.className="float";
+e.innerHTML=Math.random()>0.5?"💙":"🐣";
+e.style.left=Math.random()*100+"vw";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),8000);
+},200);
+</script>
+
+<!-- SHOP -->
+<section id="shop">
+
+<h2>🌸 Shop Bouquets</h2>
+
+<div class="card">
+<h3>🌷 Tulips</h3>
+<p>7:$9 | 15:$16 | 25:$28</p>
+<button onclick="add('Tulips',9,7)">7</button>
+<button onclick="add('Tulips',16,15)">15</button>
+<button onclick="add('Tulips',28,25)">25</button>
+</div>
+
+<div class="card">
+<h3>🌼 Daisies</h3>
+<p>7:$8 | 15:$15 | 25:$27</p>
+<button onclick="add('Daisies',8,7)">7</button>
+<button onclick="add('Daisies',15,15)">15</button>
+<button onclick="add('Daisies',27,25)">25</button>
+</div>
+
+<div class="card">
+<h3>🌺 Hibiscus</h3>
+<p>7:$12 | 15:$22 | 25:$40</p>
+<button onclick="add('Hibiscus',12,7)">7</button>
+<button onclick="add('Hibiscus',22,15)">15</button>
+<button onclick="add('Hibiscus',40,25)">25</button>
+</div>
+
+<div class="card">
+<h3>🤍 Lilies</h3>
+<p>7:$12 | 15:$23 | 25:$42</p>
+<button onclick="add('Lilies',12,7)">7</button>
+<button onclick="add('Lilies',23,15)">15</button>
+<button onclick="add('Lilies',42,25)">25</button>
+</div>
+
+<div class="card">
+<h3>🐯 Tiger Lilies</h3>
+<p>7:$13 | 15:$25 | 25:$45</p>
+<button onclick="add('Tiger Lilies',13,7)">7</button>
+<button onclick="add('Tiger Lilies',25,15)">15</button>
+<button onclick="add('Tiger Lilies',45,25)">25</button>
+</div>
+
+<!-- CUSTOM -->
+<div class="card">
+<h3>✨ Custom Order</h3>
+
+<select id="customFlower">
+<option>Tulips</option>
+<option>Daisies</option>
+<option>Hibiscus</option>
+<option>Lilies</option>
+<option>Tiger Lilies</option>
+</select>
+
+<input id="customQty" type="number" placeholder="Enter amount">
+
+<p id="estimate">Estimated: $0</p>
+
+<button onclick="calcCustom()">Calculate</button>
+<button onclick="addCustom()">Add</button>
+</div>
+
+</section>
+
+<!-- INFO -->
+<section>
+<div class="card">
+<h3>Order Info 📝</h3>
+<input id="name" placeholder="Your name">
+<input id="pickup" placeholder="Pickup time / note">
+<textarea id="msg" placeholder="Decor/message (+$5)"></textarea>
+<input id="color" placeholder="Paper color">
+</div>
+</section>
+
+<!-- SUMMARY -->
+<section>
+<div class="card">
+<h3>🧾 Your Order</h3>
+<div id="summary">No items yet</div>
+<p id="total">Total: $0</p>
+
+<button onclick="copy()">Copy</button>
+<button onclick="send()">Send 📲</button>
+
+<hr>
+
+<button onclick="apple()">🍎 Apple Pay</button>
+<button onclick="zelle()">💸 Zelle</button>
+
+<p>📲 201-736-5461</p>
+
+<button onclick="tt()">💙 TikTok</button>
+</div>
+</section>
+
+<script>
+
+let cart=[];
+
+function scrollToShop(){
+document.getElementById("shop").scrollIntoView({behavior:'smooth'});
+}
+
+function add(n,p,q){
+cart.push({n,p,q});
+update();
+}
+
+function getPrice(t){
+return {Tulips:1.2,Daisies:1.1,Hibiscus:1.8,Lilies:1.7,"Tiger Lilies":1.9}[t];
+}
+
+function calcCustom(){
+let q=parseInt(customQty.value);
+if(!q) return;
+estimate.innerText="Estimated: $"+Math.round(q*getPrice(customFlower.value));
+}
+
+function addCustom(){
+let q=parseInt(customQty.value);
+if(!q) return;
+let price=Math.round(q*getPrice(customFlower.value));
+cart.push({n:customFlower.value+" (Custom)",p:price,q:q});
+update();
+}
+
+function build(){
+if(cart.length===0) return "No items";
+
+let total=0;
+let t="💙 ORDER 💙\n\n";
+
+t+="Name: "+name.value+"\n";
+t+="Note: "+pickup.value+"\n\n";
+
+cart.forEach(i=>{
+t+=`${i.q}x ${i.n} - $${i.p}\n`;
+total+=i.p;
+});
+
+if(msg.value){
+t+="\nMessage: "+msg.value;
+total+=5;
+}
+
+t+="\nColor: "+color.value;
+t+="\nTOTAL: $"+total;
+
+return t;
+}
+
+function update(){
+summary.innerText=build();
+
+let total=0;
+cart.forEach(i=>total+=i.p);
+if(msg.value) total+=5;
+
+document.getElementById("total").innerText="Total: $"+total;
+}
+
+function copy(){
+navigator.clipboard.writeText(build());
+alert("Copied 💙");
+}
+
+function send(){
+window.open("sms:2017365461&body="+encodeURIComponent(build()));
+}
+
+function apple(){
+alert("Apple Pay depends on device 💙");
+}
+
+function zelle(){
+send();
+}
+
+function tt(){
+window.open("https://www.tiktok.com/@martinezs.flowers");
+}
+
+</script>
+
+</body>
+</html>
