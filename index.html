@@ -13,14 +13,36 @@ body {
   font-family: 'Pacifico', cursive;
   background: linear-gradient(#d9ecff, #b3d1ff);
   color: #1f2a44;
+  overflow-x: hidden;
 }
 
+/* HEADER */
 header {
   background: #4d8dff;
   text-align: center;
   padding: 25px;
   font-size: 28px;
   color: white;
+  position: relative;
+}
+
+/* HELLO KITTY POPPING SIDES */
+.kitty {
+  position: fixed;
+  width: 70px;
+  animation: pop 3s infinite ease-in-out;
+  z-index: 10;
+}
+
+.left1 { left: -10px; top: 120px; }
+.left2 { left: -15px; top: 320px; animation-delay: 1s; }
+.right1 { right: -10px; top: 180px; animation-delay: 0.5s; }
+.right2 { right: -15px; top: 400px; animation-delay: 1.5s; }
+
+@keyframes pop {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(25px); }
+  100% { transform: translateX(0); }
 }
 
 section {
@@ -32,12 +54,12 @@ section {
   background: white;
   margin: 15px auto;
   padding: 15px;
-  max-width: 340px;
+  max-width: 360px;
   border-radius: 20px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
-input, textarea {
+input, textarea, select {
   width: 80%;
   padding: 10px;
   margin: 8px;
@@ -53,90 +75,59 @@ button {
   border-radius: 15px;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
+  margin: 5px;
 }
 
 button:hover {
   background: #1f4aa8;
-}
-
-/* COLORS */
-.color-btn {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  color: white;
-}
-
-.pink { background: #ff6fb1; }
-.blue { background: #4d8dff; }
-.white { background: #eaeaea; color: black; }
-.purple { background: #9b6bff; }
-.yellow { background: #ffd24d; color: black; }
-
-.selected {
-  outline: 3px solid black;
 }
 </style>
 </head>
 
 <body>
 
+<!-- HELLO KITTY SIDES (BLUE VIBE) -->
+<div class="kitty left1">🐱💙</div>
+<div class="kitty left2">🎀🐱</div>
+<div class="kitty right1">🐱💙</div>
+<div class="kitty right2">🎀🐱</div>
+
 <header>
 💙 Martinez’s Flower Designs 💙
 </header>
 
 <section>
-<p>Blue Hello Kitty inspired flowers 🎀</p>
-<p>Custom mix & match ✨</p>
+<p>Blue Hello Kitty inspired handmade flowers 🎀</p>
+<p>Custom orders + mix & match ✨</p>
 </section>
 
 <!-- PRICES -->
 <section>
-<h2>Prices 💙</h2>
+<h2>Prices 💐</h2>
 
 <div class="card">
-  <p>🌷 Tulips</p>
-  <p>7 for $10 | 15 for $19 | 25 for $35</p>
+  <p>🌷 Tulips — 7 / 15 / 25</p>
+  <p>$10 / $19 / $35</p>
 </div>
 
 <div class="card">
-  <p>🌼 Daisies</p>
-  <p>7 for $9 | 15 for $18 | 25 for $33</p>
+  <p>🌼 Daisies — 7 / 15 / 25</p>
+  <p>$9 / $18 / $33</p>
 </div>
 
 <div class="card">
-  <p>🌺 Hibiscus</p>
-  <p>7 for $12 | 15 for $28 | 25 for $50</p>
+  <p>🌺 Hibiscus — 7 / 15 / 25</p>
+  <p>$12 / $28 / $50</p>
 </div>
 
 <div class="card">
-  <p>🐯 Tiger Lilies</p>
-  <p>7 for $13 | 15 for $29 | 25 for $55</p>
+  <p>🐯 Tiger Lilies — 7 / 15 / 25</p>
+  <p>$13 / $29 / $55</p>
 </div>
 
 <div class="card">
-  <p>🤍 Lilies</p>
-  <p>7 for $12 | 15 for $28 | 25 for $50</p>
-</div>
-</section>
-
-<!-- COLORS -->
-<section>
-<h2>Mix & Match 🎨</h2>
-
-<div class="card">
-<p>Select colors:</p>
-
-<button class="color-btn pink" onclick="pick(this)">Pink</button>
-<button class="color-btn blue" onclick="pick(this)">Blue</button>
-<button class="color-btn white" onclick="pick(this)">White</button>
-<button class="color-btn purple" onclick="pick(this)">Purple</button>
-<button class="color-btn yellow" onclick="pick(this)">Yellow</button>
-
-<p id="colorText">No colors selected</p>
+  <p>🤍 Lilies — 7 / 15 / 25</p>
+  <p>$12 / $28 / $50</p>
 </div>
 </section>
 
@@ -147,11 +138,11 @@ button:hover {
 <input id="name" placeholder="Your Name"><br>
 <input id="flower" placeholder="Flower Type"><br>
 <input id="bundle" placeholder="Bundle (7 / 15 / 25)"><br>
-<textarea id="notes" placeholder="Extra details"></textarea><br>
+<textarea id="notes" placeholder="Colors / details"></textarea><br>
 
-<button onclick="makeOrder()">Generate Order Message</button>
-<button onclick="copyOrder()">Copy Message</button>
-<button onclick="openTikTok()">Send on TikTok 💙</button>
+<button onclick="makeOrder()">Generate Order</button>
+<button onclick="copyOrder()">Copy Order 💙</button>
+<button onclick="sendSMS()">Send Order 📲</button>
 
 <div class="card">
 <p id="output">Your order will appear here 💙</p>
@@ -160,48 +151,76 @@ button:hover {
 <p>Payment: Cash / Apple Pay / Zelle</p>
 </section>
 
+<!-- CUSTOM COUNT -->
+<section>
+<h2>Custom Count Order ➕</h2>
+
+<div class="card">
+
+<p>Pick flower:</p>
+<select id="flowerType">
+  <option value="1.5">Tulips ($1.50 each)</option>
+  <option value="1.3">Daisies ($1.30 each)</option>
+  <option value="2.0">Hibiscus ($2.00 each)</option>
+  <option value="2.2">Tiger Lilies ($2.20 each)</option>
+  <option value="2.0">Lilies ($2.00 each)</option>
+</select>
+
+<input id="count" type="number" placeholder="Enter custom amount">
+
+<button onclick="calc()">Estimate Price</button>
+
+<p id="result">Price will show here 💙</p>
+
+</div>
+</section>
+
 <script>
 
-let colors = [];
-
-function pick(btn) {
-  let c = btn.innerText;
-
-  btn.classList.toggle("selected");
-
-  if (colors.includes(c)) {
-    colors = colors.filter(x => x !== c);
-  } else {
-    colors.push(c);
-  }
-
-  document.getElementById("colorText").innerText =
-    colors.length ? "Colors: " + colors.join(", ") : "No colors selected";
-}
+let lastMessage = "";
 
 function makeOrder() {
-  let msg =
+  lastMessage =
 `💙 NEW ORDER 💙
 
 Name: ${document.getElementById("name").value}
 Flower: ${document.getElementById("flower").value}
 Bundle: ${document.getElementById("bundle").value}
-Colors: ${colors.join(", ") || "None"}
-Notes: ${document.getElementById("notes").value || "None"}
+Notes: ${document.getElementById("notes").value}
 
-Send to: @martinezs.flowers
 Payment: Cash / Apple Pay / Zelle`;
 
-  document.getElementById("output").innerText = msg;
+  document.getElementById("output").innerText = lastMessage;
 }
 
 function copyOrder() {
-  navigator.clipboard.writeText(document.getElementById("output").innerText);
+  navigator.clipboard.writeText(lastMessage);
   alert("Copied 💙");
 }
 
-function openTikTok() {
-  window.open("https://www.tiktok.com/@martinezs.flowers");
+/* SMS SEND (opens messages app, DOES NOT auto-send) */
+function sendSMS() {
+  let text =
+`NEW ORDER 💙
+Name: ${document.getElementById("name").value}
+Flower: ${document.getElementById("flower").value}
+Bundle: ${document.getElementById("bundle").value}
+Notes: ${document.getElementById("notes").value}`;
+
+  window.open("sms:2017365461&body=" + encodeURIComponent(text));
+}
+
+function calc() {
+  let price = parseFloat(document.getElementById("flowerType").value);
+  let count = parseInt(document.getElementById("count").value);
+
+  if (!count || count <= 0) {
+    document.getElementById("result").innerText = "Enter a valid number 💙";
+    return;
+  }
+
+  document.getElementById("result").innerText =
+    "Estimated Price: $" + (price * count).toFixed(2);
 }
 
 </script>
