@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martinez’s Flower Designs 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Pacifico', cursive;
+background:linear-gradient(#d9ecff,#b3d1ff);
+overflow-x:hidden;
+}
+
+/* ENTER SCREEN */
+#enter{
+position:fixed;
+width:100%;
+height:100%;
+background:linear-gradient(#b3d1ff,#d9ecff);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+text-align:center;
+}
+
+/* FLOATING EMOJIS */
+.float{
+position:fixed;
+font-size:22px;
+animation:up 6s linear infinite;
+}
+
+@keyframes up{
+0%{transform:translateY(100vh);opacity:0;}
+10%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* HEADER */
+header{
+background:#4d8dff;
+text-align:center;
+padding:20px;
+color:white;
+font-size:26px;
+}
+
+/* LAYOUT */
+section{text-align:center;padding:15px;}
+
+.card{
+background:white;
+margin:10px auto;
+padding:15px;
+max-width:400px;
+border-radius:15px;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+
+button{
+background:#2f5fbf;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+margin:4px;
+}
+
+textarea,input{
+width:80%;
+padding:8px;
+margin:5px;
+border-radius:8px;
+}
+
+#summary{
+white-space:pre-wrap;
+text-align:left;
+background:#f5faff;
+padding:10px;
+border-radius:10px;
+}
+
+/* THANK YOU */
+#thankyou{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:25px;
+border-radius:20px;
+display:none;
+z-index:9999;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ENTER -->
+<div id="enter">
+<h1>💙🐣 Martinez’s Flowers 💙🐣</h1>
+<button onclick="start()">Tap to Enter</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2023/03/15/audio_1f7b8c9a7b.mp3">
+</audio>
+
+<div id="app" style="display:none;">
+
+<header>💙 Martinez’s Flower Designs 💙</header>
+
+<section>Luxury flower shop 🎀</section>
+
+<!-- SHOP -->
+<section>
+
+<div class="card">
+<h3>🌷 Tulips</h3>
+<p>7:$9 | 15:$16 | 25:$28</p>
+<button onclick="add('Tulips',9,7)">7</button>
+<button onclick="add('Tulips',16,15)">15</button>
+<button onclick="add('Tulips',28,25)">25</button>
+</div>
+
+<div class="card">
+<h3>🌼 Daisies</h3>
+<p>7:$8 | 15:$15 | 25:$27</p>
+<button onclick="add('Daisies',8,7)">7</button>
+<button onclick="add('Daisies',15,15)">15</button>
+<button onclick="add('Daisies',27,25)">25</button>
+</div>
+
+<div class="card">
+<h3>🌺 Hibiscus</h3>
+<p>7:$12 | 15:$22 | 25:$40</p>
+<button onclick="add('Hibiscus',12,7)">7</button>
+<button onclick="add('Hibiscus',22,15)">15</button>
+<button onclick="add('Hibiscus',40,25)">25</button>
+</div>
+
+</section>
+
+<!-- EXTRAS -->
+<section>
+<div class="card">
+<h3>Extras 🎀</h3>
+<textarea id="msg" placeholder="Decor (+$5 if used)"></textarea>
+<input id="color" placeholder="Paper color">
+</div>
+</section>
+
+<!-- SUMMARY -->
+<section>
+<div class="card">
+
+<h3>🧾 Order Summary</h3>
+
+<div id="summary">No items yet</div>
+
+<p id="total">Total: $0</p>
+
+<hr>
+
+<h4>💳 Checkout</h4>
+
+<button onclick="apple()">🍎 Apple Pay</button>
+<button onclick="zelle()">💸 Zelle</button>
+
+<p>📲 201-736-5461</p>
+
+<button onclick="copy()">Copy Order</button>
+<button onclick="send()">Send Order</button>
+
+<hr>
+
+<button onclick="tt()">💙 TikTok</button>
+
+</div>
+</section>
+
+<!-- THANK YOU -->
+<div id="thankyou">
+<h2>💙 Order Sent!</h2>
+</div>
+
+</div>
+
+<script>
+
+let cart=[];
+let total=0;
+
+function start(){
+document.getElementById("enter").style.display="none";
+document.getElementById("app").style.display="block";
+document.getElementById("music").play();
+}
+
+/* FLOAT */
+function float(){
+let e=document.createElement("div");
+e.className="float";
+e.innerHTML=Math.random()>0.5?"💙":"🐣";
+e.style.left=Math.random()*100+"vw";
+e.style.animationDuration=(3+Math.random()*5)+"s";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),8000);
+}
+setInterval(float,200);
+
+/* ADD */
+function add(n,p,q){
+cart.push({n,p,q});
+total+=p;
+update();
+}
+
+/* SUMMARY FIXED */
+function build(){
+if(cart.length===0) return "No items";
+
+let t="💙 ORDER 💙\n\n";
+
+cart.forEach(i=>{
+t+=`${i.q}x ${i.n} - $${i.p}\n`;
+});
+
+let msg=document.getElementById("msg").value;
+if(msg) t+="\nMessage: "+msg;
+
+t+="\nColor: "+document.getElementById("color").value;
+t+="\nTOTAL: $"+total;
+
+return t;
+}
+
+function update(){
+document.getElementById("summary").innerText=build();
+document.getElementById("total").innerText="Total: $"+total;
+}
+
+/* PAY */
+function apple(){alert("Apple Pay depends on device 💙");}
+
+function zelle(){
+window.open("sms:2017365461&body="+encodeURIComponent(build()));
+}
+
+/* COPY */
+function copy(){
+navigator.clipboard.writeText(build());
+alert("Copied 💙");
+}
+
+/* SEND */
+function send(){
+window.open("sms:2017365461&body="+encodeURIComponent(build()));
+}
+
+/* TIKTOK */
+function tt(){
+window.open("https://www.tiktok.com/@martinezs.flowers");
+}
+
+</script>
+
+</body>
+</html>
