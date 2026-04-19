@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martinez’s Flower Designs 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Pacifico';
+background:linear-gradient(#e6f2ff,#cce0ff);
+}
+
+/* NAV */
+nav{
+background:#2f5fbf;
+display:flex;
+justify-content:space-around;
+padding:12px;
+}
+nav button{
+background:none;border:none;color:white;
+}
+
+/* PAGES */
+.page{display:none;padding:20px;text-align:center;}
+.active{display:block;}
+
+/* CARDS */
+.card{
+background:white;
+margin:12px auto;
+padding:18px;
+max-width:420px;
+border-radius:18px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}
+
+/* BUTTONS */
+button{
+background:#4d8dff;
+color:white;
+border:none;
+padding:10px;
+border-radius:12px;
+margin:5px;
+}
+
+/* INPUTS */
+input,textarea,select{
+width:85%;
+margin:6px;
+padding:10px;
+border-radius:10px;
+border:1px solid #d0e2ff;
+}
+
+/* COLOR BUTTONS */
+.color-btn{
+display:inline-block;
+padding:8px 14px;
+margin:5px;
+border-radius:20px;
+background:#dbeaff;
+cursor:pointer;
+}
+
+/* FLOAT */
+.float{
+position:fixed;
+animation:up 6s linear infinite;
+font-size:20px;
+}
+@keyframes up{
+0%{transform:translateY(100vh);opacity:0;}
+10%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* THANK YOU */
+#thankYou{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+font-size:60px;
+color:#2f5fbf;
+opacity:0;
+transition:all 0.5s;
+z-index:9999;
+}
+#thankYou.show{
+transform:translate(-50%,-50%) scale(1.5);
+opacity:1;
+}
+
+/* ⭐ ADDED: WARNING BOX */
+.notice{
+background:rgba(255,255,255,0.85);
+margin:10px;
+padding:10px;
+border-radius:12px;
+font-size:14px;
+color:#333;
+text-align:center;
+}
+
+/* ⭐ ADDED: TIKTOK BUTTON */
+.tiktok-btn{
+display:inline-block;
+background: linear-gradient(135deg, #4d8dff, #2f5fbf);
+color:white;
+padding:12px 18px;
+border-radius:18px;
+text-decoration:none;
+font-size:16px;
+box-shadow:0 0 12px rgba(77,141,255,0.6);
+transition:0.3s;
+}
+
+.tiktok-btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 18px rgba(77,141,255,0.9);
+}
+</style>
+</head>
+
+<body>
+
+<div id="thankYou">💙 THANK YOU 💙</div>
+
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('flowers')">Flowers</button>
+<button onclick="show('order')">Order</button>
+<button onclick="show('payment')">Payment</button>
+<button onclick="show('contact')">Contact</button>
+</nav>
+
+<!-- ⭐ ADDED WARNING MESSAGE (nothing removed) -->
+<div class="notice">
+⚠️ Sometimes this website may not load correctly inside apps like Instagram or TikTok.  
+If anything gets stuck or freezes, please open it in Safari or Chrome for the best experience.
+</div>
+
+<script>
+setInterval(()=>{
+let e=document.createElement("div");
+e.className="float";
+e.innerHTML=Math.random()>0.5?"💙":"🐣";
+e.style.left=Math.random()*100+"vw";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),8000);
+},200);
+</script>
+
+<!-- HOME -->
+<div id="home" class="page active">
+<h1>💙 Martinez’s Flower Designs 💙</h1>
+<p>Hi there! Welcome to my little corner of creativity where simple pipe cleaners turn into something beautiful.</p>
+<p>This space is all about handmade flowers and sharing something I genuinely love making.</p>
+<h3>🌼 My Story</h3>
+<p>I’ve always jumped from hobby to hobby, but this is the one that stuck.</p>
+<p>Now I just want to share it 💙</p>
+</div>
+
+<!-- FLOWERS -->
+<div id="flowers" class="page">
+
+<h2>🌸 Flowers</h2>
+
+<div class="card">
+<h3>🌷 Tulips</h3>
+<button onclick="add('Tulips',9,7)">7 $9</button>
+<button onclick="add('Tulips',16,15)">15 $16</button>
+<button onclick="add('Tulips',28,25)">25 $28</button>
+</div>
+
+<div class="card">
+<h3>🌼 Daisies</h3>
+<button onclick="add('Daisies',8,7)">7 $8</button>
+<button onclick="add('Daisies',15,15)">15 $15</button>
+<button onclick="add('Daisies',27,25)">25 $27</button>
+</div>
+
+<div class="card">
+<h3>🌺 Hibiscus</h3>
+<button onclick="add('Hibiscus',12,7)">7 $12</button>
+<button onclick="add('Hibiscus',22,15)">15 $22</button>
+<button onclick="add('Hibiscus',40,25)">25 $40</button>
+</div>
+
+<div class="card">
+<h3>🤍 Lilies</h3>
+<button onclick="add('Lilies',12,7)">7 $12</button>
+<button onclick="add('Lilies',23,15)">15 $23</button>
+<button onclick="add('Lilies',42,25)">25 $42</button>
+</div>
+
+<div class="card">
+<h3>🐯 Tiger Lilies</h3>
+<button onclick="add('Tiger Lilies',13,7)">7 $13</button>
+<button onclick="add('Tiger Lilies',25,15)">15 $25</button>
+<button onclick="add('Tiger Lilies',45,25)">25 $45</button>
+</div>
+
+<!-- CUSTOM -->
+<div class="card">
+<h3>✨ Custom Order</h3>
+<select id="type">
+<option>Tulips</option>
+<option>Daisies</option>
+<option>Hibiscus</option>
+<option>Lilies</option>
+<option>Tiger Lilies</option>
+</select>
+<input id="qty" type="number" placeholder="Amount">
+<p id="est">Estimated: $0</p>
+<input id="flowerColor" placeholder="Flower color (ex: blue, pink mix)">
+<button onclick="calc()">Calculate</button>
+<button onclick="addCustom()">Add</button>
+</div>
+
+<!-- BUILDER -->
+<div class="card">
+<h3>💐 Make Your Own Bouquet</h3>
+
+<input id="tulipQty" type="number" placeholder="🌷 Tulips">
+<input id="daisyQty" type="number" placeholder="🌼 Daisies">
+<input id="hibiscusQty" type="number" placeholder="🌺 Hibiscus">
+<input id="lilyQty" type="number" placeholder="🤍 Lilies">
+<input id="tigerQty" type="number" placeholder="🐯 Tiger Lilies">
+
+<div>
+<span class="color-btn" onclick="setBouquetColor('Blue')">💙</span>
+<span class="color-btn" onclick="setBouquetColor('Pink')">💗</span>
+<span class="color-btn" onclick="setBouquetColor('White')">🤍</span>
+<span class="color-btn" onclick="setBouquetColor('Purple')">💜</span>
+<span class="color-btn" onclick="setBouquetColor('Yellow')">💛</span>
+</div>
+
+<select id="colorMode">
+<option>Same Color</option>
+<option>Mixed Colors</option>
+</select>
+
+<input id="bouquetColor" placeholder="Custom color">
+
+<p id="mixEstimate">Estimated: $0</p>
+
+<button onclick="addMix()">Add Bouquet 💙</button>
+
+</div>
+
+</div>
+
+<!-- ORDER -->
+<div id="order" class="page">
+<input id="name" placeholder="Your name">
+
+<select id="method">
+<option>Pickup</option>
+<option>Delivery</option>
+</select>
+
+<input type="date" id="date">
+<input type="time" id="time">
+
+<p>⏳ Orders may take 1–2 weeks depending on size</p>
+
+<textarea id="msg" placeholder="Decor/message (+$5)"></textarea>
+
+<h4>🎀 Paper Color</h4>
+<div>
+<span class="color-btn" onclick="setPaper('White')">White</span>
+<span class="color-btn" onclick="setPaper('Blue')">Blue</span>
+<span class="color-btn" onclick="setPaper('Pink')">Pink</span>
+<span class="color-btn" onclick="setPaper('Black')">Black</span>
+</div>
+<input id="paperCustom" placeholder="Custom color">
+</div>
+
+<!-- PAYMENT -->
+<div id="payment" class="page">
+<div id="summary">No items yet</div>
+<p id="total">$0</p>
+<button onclick="copy()">Copy</button>
+<button onclick="send()">Send</button>
+<button onclick="alert('Apple Pay depends on device')">🍎 Apple Pay</button>
+<button onclick="send()">💸 Zelle</button>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+<p>📲 201-736-5461</p>
+
+<!-- ⭐ REPLACED WITH GLOW BUTTON -->
+<a class="tiktok-btn"
+href="https://www.tiktok.com/@martinezs.flowers?_r=1&_t=ZT-95flhn8xJzp"
+target="_blank" rel="noopener noreferrer">
+💙 Open My TikTok
+</a>
+
+</div>
+
+<script>
+
+let cart=[];
+let paperColor="";
+
+function show(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+function showThanks(){
+let el=document.getElementById("thankYou");
+el.classList.add("show");
+setTimeout(()=>el.classList.remove("show"),1200);
+}
+
+function add(n,p,q){
+cart.push({n,p,q});
+update();
+showThanks();
+}
+
+function price(t){
+return {Tulips:1.2,Daisies:1.1,Hibiscus:1.8,Lilies:1.7,"Tiger Lilies":1.9}[t];
+}
+
+function calc(){
+let q=qty.value;
+if(!q)return;
+est.innerText="Estimated: $"+Math.round(q*price(type.value));
+}
+
+function addCustom(){
+let q=qty.value;
+if(!q)return;
+let p=Math.round(q*price(type.value));
+cart.push({n:type.value+" custom",p:p,q:q});
+update();
+showThanks();
+}
+
+function setPaper(c){paperColor=c;update();}
+function setBouquetColor(c){bouquetColor.value=c;updateMixEstimate();}
+
+function updateMixEstimate(){
+let total =
+(tulipQty.value*price("Tulips")||0)+
+(daisyQty.value*price("Daisies")||0)+
+(hibiscusQty.value*price("Hibiscus")||0)+
+(lilyQty.value*price("Lilies")||0)+
+(tigerQty.value*price("Tiger Lilies")||0);
+mixEstimate.innerText="Estimated: $"+Math.round(total);
+}
+
+function addMix(){
+let total=0,desc="";
+function line(n,q){
+if(q>0){let p=Math.round(q*price(n));total+=p;desc+=`${q}x ${n}, `;}
+}
+line("Tulips",tulipQty.value);
+line("Daisies",daisyQty.value);
+line("Hibiscus",hibiscusQty.value);
+line("Lilies",lilyQty.value);
+line("Tiger Lilies",tigerQty.value);
+
+if(total===0){alert("Add flowers 💙");return;}
+
+let mode=colorMode.value==="Same Color"?"All "+bouquetColor.value:"Mixed "+bouquetColor.value;
+
+cart.push({n:"Custom Bouquet",p:total,q:1,extra:desc+"| "+mode});
+update();
+showThanks();
+}
+
+function update(){
+let t="",total=0;
+cart.forEach(i=>{t+=`${i.q}x ${i.n} - $${i.p}\n`;total+=i.p;});
+if(msg.value) total+=5;
+
+let finalPaper=paperCustom.value||paperColor;
+
+t+=`\n\nName: ${name.value}`;
+t+=`\nType: ${method.value}`;
+t+=`\nDate: ${date.value} ${time.value}`;
+t+=`\nFlower Color: ${flowerColor.value}`;
+t+=`\nPaper Color: ${finalPaper}`;
+
+cart.forEach(i=>{if(i.extra)t+=`\n• ${i.extra}`;});
+
+summary.innerText=t||"No items yet";
+document.getElementById("total").innerText="$"+total;
+}
+
+["name","msg","date","time","flowerColor","paperCustom","method"].forEach(id=>{
+let el=document.getElementById(id);
+if(el){
+el.addEventListener("input",update);
+el.addEventListener("change",update);
+}
+});
+
+function copy(){
+navigator.clipboard.writeText(summary.innerText);
+alert("Copied 💙");
+}
+
+function send(){
+window.open("sms:2017365461&body="+encodeURIComponent(summary.innerText));
+}
+
+</script>
+
+</body>
+</html>
