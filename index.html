@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martinez’s Flower Designs 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  font-family:'Pacifico', cursive;
+  background:linear-gradient(#d9ecff,#b3d1ff);
+  overflow-x:hidden;
+  opacity:0;
+  animation:fadeIn 1.5s forwards;
+}
+
+@keyframes fadeIn { to {opacity:1;} }
+
+/* 💙 LOADING */
+#loading {
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:linear-gradient(#b3d1ff,#d9ecff);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+#loading img {
+  width:120px;
+  animation:bounce 1s infinite;
+}
+@keyframes bounce {
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
+}
+
+/* HEADER */
+header {
+  background:#4d8dff;
+  text-align:center;
+  padding:20px;
+  color:white;
+  font-size:26px;
+}
+
+/* 🐱 KITTY */
+.kitty {
+  position:fixed;
+  width:65px;
+  animation:float 4s infinite ease-in-out;
+}
+.k1{left:10px;top:120px;}
+.k2{left:20px;top:300px;}
+.k3{right:10px;top:180px;}
+.k4{right:20px;top:420px;}
+
+@keyframes float {
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+  100%{transform:translateY(0);}
+}
+
+/* 💙 HEARTS */
+.heart {
+  position:fixed;
+  color:#4da6ff;
+  animation:up 6s linear infinite;
+}
+@keyframes up {
+  0%{transform:translateY(100vh);opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* CARDS */
+section {text-align:center;padding:15px;}
+.card {
+  background:white;
+  margin:10px auto;
+  padding:15px;
+  max-width:380px;
+  border-radius:15px;
+  box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+
+button {
+  background:#2f5fbf;
+  color:white;
+  border:none;
+  padding:10px;
+  border-radius:10px;
+  cursor:pointer;
+  margin:3px;
+}
+
+textarea,input{
+  width:80%;
+  padding:8px;
+  margin:5px;
+  border-radius:8px;
+}
+
+/* 💌 THANK YOU */
+#thankyou {
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  display:none;
+  z-index:9999;
+}
+
+/* 🎵 MUSIC BUTTON */
+#musicBtn {
+  position:fixed;
+  bottom:15px;
+  right:15px;
+  background:#2f5fbf;
+  color:white;
+  padding:10px;
+  border-radius:10px;
+  z-index:999;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 💙 LOADING -->
+<div id="loading">
+<img src="https://i.imgur.com/7kXQF8Z.png">
+<h2>Loading Martinez’s Flowers 💙</h2>
+</div>
+
+<script>
+setTimeout(()=>document.getElementById("loading").style.display="none",3000);
+</script>
+
+<!-- 🐱 KITTY -->
+<img class="kitty k1" src="https://i.imgur.com/7kXQF8Z.png">
+<img class="kitty k2" src="https://i.imgur.com/7kXQF8Z.png">
+<img class="kitty k3" src="https://i.imgur.com/7kXQF8Z.png">
+<img class="kitty k4" src="https://i.imgur.com/7kXQF8Z.png">
+
+<!-- 💙 HEARTS -->
+<script>
+function heart(){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💙";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*4)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+}
+setInterval(heart,250);
+</script>
+
+<!-- 🎵 MUSIC -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2023/03/15/audio_1f7b8c9a7b.mp3">
+</audio>
+
+<div id="musicBtn" onclick="toggleMusic()">🎵 Music</div>
+
+<script>
+function toggleMusic(){
+  let m=document.getElementById("music");
+  if(m.paused) m.play();
+  else m.pause();
+}
+</script>
+
+<header>💙 Martinez’s Flower Designs 💙</header>
+
+<section>
+<p>Luxury flower shop 🎀</p>
+</section>
+
+<!-- SHOP -->
+<section>
+
+<div class="card">
+<h3>🌷 Tulips</h3>
+<p>7:$9 | 15:$16 | 25:$28</p>
+<button onclick="add('Tulips',9)">7</button>
+<button onclick="add('Tulips',16)">15</button>
+<button onclick="add('Tulips',28)">25</button>
+</div>
+
+<div class="card">
+<h3>🌼 Daisies</h3>
+<p>7:$8 | 15:$15 | 25:$27</p>
+<button onclick="add('Daisies',8)">7</button>
+<button onclick="add('Daisies',15)">15</button>
+<button onclick="add('Daisies',27)">25</button>
+</div>
+
+<div class="card">
+<h3>🌺 Hibiscus</h3>
+<p>7:$12 | 15:$22 | 25:$40</p>
+<button onclick="add('Hibiscus',12)">7</button>
+<button onclick="add('Hibiscus',22)">15</button>
+<button onclick="add('Hibiscus',40)">25</button>
+</div>
+
+<div class="card">
+<h3>🐯 Tiger Lilies</h3>
+<p>7:$13 | 15:$25 | 25:$45</p>
+<button onclick="add('Tiger Lilies',13)">7</button>
+<button onclick="add('Tiger Lilies',25)">15</button>
+<button onclick="add('Tiger Lilies',45)">25</button>
+</div>
+
+<div class="card">
+<h3>🤍 Lilies</h3>
+<p>7:$12 | 15:$23 | 25:$42</p>
+<button onclick="add('Lilies',12)">7</button>
+<button onclick="add('Lilies',23)">15</button>
+<button onclick="add('Lilies',42)">25</button>
+</div>
+
+</section>
+
+<!-- EXTRAS -->
+<section>
+<div class="card">
+<h3>Extras 🎀</h3>
+
+<textarea id="msg" placeholder="Decor/message (+$5)" oninput="check()"></textarea>
+<input id="color" placeholder="Paper color">
+</div>
+</section>
+
+<!-- CART -->
+<section>
+<div class="card">
+<h3>Cart 🛒</h3>
+<p id="cart">Empty</p>
+<p id="total">Total: $0</p>
+
+<button onclick="send()">Send Order 📲</button>
+<button onclick="tt()">TikTok 💙</button>
+<button onclick="thanks()">Finish 💌</button>
+</div>
+</section>
+
+<!-- THANK YOU -->
+<div id="thankyou">
+<h2>💙 Thank You!</h2>
+<p>Your order was received 🎀</p>
+</div>
+
+<script>
+
+let cart=[],total=0,fee=0;
+
+function add(n,p){
+  cart.push(n);
+  total+=p;
+  update();
+}
+
+function check(){
+  fee=document.getElementById("msg").value.trim()?5:0;
+  update();
+}
+
+function update(){
+  document.getElementById("cart").innerText=cart.join(", ");
+  document.getElementById("total").innerText="Total: $"+(total+fee);
+}
+
+function send(){
+  let m=`Order 💙
+Items: ${cart.join(", ")}
+Total: $${total+fee}
+Message: ${document.getElementById("msg").value}
+Color: ${document.getElementById("color").value}
+Zelle: 201-736-5461`;
+
+  window.open("sms:2017365461&body="+encodeURIComponent(m));
+}
+
+function tt(){
+  navigator.clipboard.writeText(`Order 💙 ${cart.join(", ")} $${total+fee}`);
+  window.open("https://www.tiktok.com/@martinezs.flowers");
+}
+
+function thanks(){
+  document.getElementById("thankyou").style.display="block";
+  setTimeout(()=>document.getElementById("thankyou").style.display="none",3000);
+}
+
+</script>
+
+</body>
+</html>
