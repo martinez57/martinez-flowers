@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martinez’s Flower Designs 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Pacifico';
+background:linear-gradient(#e6f2ff,#cce0ff);
+}
+
+/* NAV */
+nav{
+background:#2f5fbf;
+display:flex;
+justify-content:space-around;
+padding:12px;
+}
+nav button{
+background:none;border:none;color:white;
+}
+
+/* PAGES */
+.page{display:none;padding:20px;text-align:center;}
+.active{display:block;}
+
+/* CARDS */
+.card{
+background:white;
+margin:12px auto;
+padding:18px;
+max-width:420px;
+border-radius:18px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}
+
+/* BUTTONS */
+button{
+background:#4d8dff;
+color:white;
+border:none;
+padding:10px;
+border-radius:12px;
+margin:5px;
+}
+
+/* INPUTS */
+input,textarea,select{
+width:85%;
+margin:6px;
+padding:10px;
+border-radius:10px;
+border:1px solid #d0e2ff;
+}
+
+/* COLOR BUTTONS */
+.color-btn{
+display:inline-block;
+padding:8px 14px;
+margin:5px;
+border-radius:20px;
+background:#dbeaff;
+cursor:pointer;
+}
+
+/* FLOAT */
+.float{
+position:fixed;
+animation:up 6s linear infinite;
+font-size:20px;
+}
+@keyframes up{
+0%{transform:translateY(100vh);opacity:0;}
+10%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* THANK YOU */
+#thankYou{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+font-size:60px;
+color:#2f5fbf;
+opacity:0;
+transition:all 0.5s;
+z-index:9999;
+}
+#thankYou.show{
+transform:translate(-50%,-50%) scale(1.5);
+opacity:1;
+}
+
+/* ⚠️ WARNING */
+.notice{
+background:rgba(255,255,255,0.85);
+margin:10px;
+padding:10px;
+border-radius:12px;
+font-size:14px;
+color:#333;
+}
+
+/* 💙 TIKTOK BUTTON */
+.tiktok-btn{
+display:inline-block;
+background:linear-gradient(135deg,#4d8dff,#2f5fbf);
+color:white;
+padding:12px 18px;
+border-radius:14px;
+text-decoration:none;
+box-shadow:0 4px 12px rgba(77,141,255,0.4);
+}
+
+/* 🗑️ DELETE */
+.delete-btn{
+background:#ff4d4d;
+border:none;
+padding:5px 8px;
+border-radius:8px;
+font-size:12px;
+cursor:pointer;
+}
+
+/* ↩️ UNDO */
+.undo-btn{
+background:#ffb84d;
+border:none;
+padding:8px 12px;
+border-radius:12px;
+cursor:pointer;
+margin-top:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="thankYou">💙 THANK YOU 💙</div>
+
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('flowers')">Flowers</button>
+<button onclick="show('order')">Order</button>
+<button onclick="show('payment')">Payment</button>
+<button onclick="show('contact')">Contact</button>
+</nav>
+
+<!-- ⚠️ WARNING -->
+<div class="notice">
+⚠️ If the site freezes or glitches in TikTok/Instagram, open it in Safari or Chrome.
+</div>
+
+<script>
+
+/* 💾 SAVE CART */
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let paperColor="";
+let bouquetColor="";
+let lastDeleted=null;
+
+/* SAVE FUNCTION */
+function saveCart(){
+localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* FLOAT */
+setInterval(()=>{
+let e=document.createElement("div");
+e.className="float";
+e.innerHTML=Math.random()>0.5?"💙":"🐣";
+e.style.left=Math.random()*100+"vw";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),6000);
+},400);
+
+/* NAV */
+function show(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+/* THANK YOU */
+function showThanks(){
+let el=document.getElementById("thankYou");
+el.classList.add("show");
+setTimeout(()=>el.classList.remove("show"),1000);
+}
+
+/* PRICE */
+function price(t){
+return {Tulips:1.2,Daisies:1.1,Hibiscus:1.8,Lilies:1.7,"Tiger Lilies":1.9}[t];
+}
+
+/* ADD */
+function add(n,p,q){
+cart.push({n,p,q});
+saveCart();
+update();
+showThanks();
+}
+
+/* 🗑️ DELETE */
+function removeItem(i){
+lastDeleted = cart[i];
+cart.splice(i,1);
+saveCart();
+update();
+}
+
+/* ↩️ UNDO */
+function undoDelete(){
+if(lastDeleted){
+cart.push(lastDeleted);
+saveCart();
+update();
+lastDeleted=null;
+}
+}
+
+/* CUSTOM */
+function calc(){
+est.innerText="Estimated: $"+Math.round(qty.value*price(type.value));
+}
+
+function addCustom(){
+cart.push({
+n:type.value,
+p:Math.round(qty.value*price(type.value)),
+q:qty.value
+});
+saveCart();
+update();
+showThanks();
+}
+
+/* BOUQUET */
+function addMix(){
+let total=0,desc="";
+
+function line(n,q){
+if(q>0){
+let p=Math.round(q*price(n));
+total+=p;
+desc+=`${q}x ${n}, `;
+}
+}
+
+line("Tulips",tulipQty.value);
+line("Daisies",daisyQty.value);
+line("Hibiscus",hibiscusQty.value);
+line("Lilies",lilyQty.value);
+line("Tiger Lilies",tigerQty.value);
+
+if(total===0)return alert("Add flowers 💙");
+
+cart.push({n:"Bouquet",p:total,q:1,extra:desc});
+saveCart();
+update();
+showThanks();
+}
+
+/* 🛒 UPDATE (FIXED + $5 MESSAGE) */
+function update(){
+let t="";
+let total=0;
+
+cart.forEach((i,index)=>{
+t+=`${i.q}x ${i.n} - $${i.p} 🗑️\n`;
+total+=i.p;
+});
+
+if(msg.value && msg.value.trim() !== ""){
+total += 5;
+t += "\n+ $5 Message/Decor";
+}
+
+summary.innerText=t||"No items yet";
+document.getElementById("total").innerText="$"+total;
+}
+
+/* COPY + SEND */
+function copy(){
+navigator.clipboard.writeText(summary.innerText);
+alert("Copied 💙");
+}
+
+function send(){
+window.open("sms:2017365461&body="+encodeURIComponent(summary.innerText));
+}
+
+/* LOAD CART */
+window.onload=update;
+
+</script>
+
+<!-- HOME -->
+<div id="home" class="page active">
+<h1>💙 Martinez’s Flower Designs 💙</h1>
+<p>Welcome to my handmade flower shop 💐</p>
+</div>
+
+<!-- FLOWERS (UNCHANGED ORIGINAL SYSTEM) -->
+<div id="flowers" class="page">
+
+<div class="card">
+<h3>🌷 Tulips</h3>
+<button onclick="add('Tulips',9,7)">7 $9</button>
+<button onclick="add('Tulips',16,15)">15 $16</button>
+<button onclick="add('Tulips',28,25)">25 $28</button>
+</div>
+
+<div class="card">
+<h3>🌼 Daisies</h3>
+<button onclick="add('Daisies',8,7)">7 $8</button>
+<button onclick="add('Daisies',15,15)">15 $15</button>
+<button onclick="add('Daisies',27,25)">25 $27</button>
+</div>
+
+<div class="card">
+<h3>🌺 Hibiscus</h3>
+<button onclick="add('Hibiscus',12,7)">7 $12</button>
+<button onclick="add('Hibiscus',22,15)">15 $22</button>
+<button onclick="add('Hibiscus',40,25)">25 $40</button>
+</div>
+
+<div class="card">
+<h3>🤍 Lilies</h3>
+<button onclick="add('Lilies',12,7)">7 $12</button>
+<button onclick="add('Lilies',23,15)">15 $23</button>
+<button onclick="add('Lilies',42,25)">25 $42</button>
+</div>
+
+<div class="card">
+<h3>🐯 Tiger Lilies</h3>
+<button onclick="add('Tiger Lilies',13,7)">7 $13</button>
+<button onclick="add('Tiger Lilies',25,15)">15 $25</button>
+<button onclick="add('Tiger Lilies',45,25)">25 $45</button>
+</div>
+
+</div>
+
+<!-- ORDER -->
+<div id="order" class="page">
+<input id="msg" placeholder="Message (+$5)">
+</div>
+
+<!-- PAYMENT -->
+<div id="payment" class="page">
+
+<div class="card">
+<h2>🛒 Checkout</h2>
+
+<pre id="summary">No items yet</pre>
+
+<p id="total">$0</p>
+
+<button onclick="copy()">Copy</button>
+<button onclick="send()">Send</button>
+
+<button class="undo-btn" onclick="undoDelete()">↩️ Undo Delete</button>
+
+</div>
+
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+
+<p>📲 201-736-5461</p>
+
+<a class="tiktok-btn"
+href="https://www.tiktok.com/@martinezs.flowers?_r=1&_t=ZT-95flhn8xJzp"
+target="_blank">
+💙 Open My TikTok
+</a>
+
+</div>
+
+</body>
+</html>
