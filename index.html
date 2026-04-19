@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martinez’s Flowers 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Pacifico';
+background:#e6f2ff;
+}
+
+.app{
+max-width:430px;
+margin:auto;
+background:white;
+min-height:100vh;
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 0 20px rgba(0,0,0,0.15);
+}
+
+.header{
+background:#2f5fbf;
+color:white;
+text-align:center;
+padding:16px;
+font-size:20px;
+}
+
+.page{
+display:none;
+padding:16px;
+padding-bottom:90px;
+}
+.active{display:block;}
+
+.card{
+background:#f7fbff;
+padding:14px;
+margin:10px 0;
+border-radius:15px;
+}
+
+button{
+background:#4d8dff;
+color:white;
+border:none;
+padding:10px;
+border-radius:12px;
+margin:5px 0;
+width:100%;
+}
+
+input,textarea,select{
+width:100%;
+padding:10px;
+margin:6px 0;
+border-radius:10px;
+border:1px solid #d0e2ff;
+}
+
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+max-width:430px;
+display:flex;
+justify-content:space-around;
+background:white;
+padding:10px;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.nav button{
+background:none;
+color:#2f5fbf;
+width:auto;
+font-size:12px;
+}
+
+.line{
+display:flex;
+justify-content:space-between;
+margin:6px 0;
+}
+
+.del{
+background:#ff4d4d;
+font-size:11px;
+padding:4px 7px;
+border-radius:8px;
+}
+
+.small{
+font-size:12px;
+color:gray;
+}
+
+.total{
+margin-top:10px;
+font-weight:bold;
+border-top:1px solid #ddd;
+padding-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">💙 Martinez’s Flowers</div>
+
+<script>
+let cart=[];
+
+/* NAV */
+function show(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+/* PRICE */
+function price(t){
+return {
+Tulips:1.2,
+Daisies:1.1,
+Hibiscus:1.8,
+Lilies:1.7,
+"Tiger Lilies":1.9
+}[t];
+}
+
+/* ADD */
+function add(n,p,q,color=""){
+cart.push({n,p,q,color});
+renderCart();
+}
+
+/* REMOVE */
+function removeItem(i){
+cart.splice(i,1);
+renderCart();
+}
+
+/* CART */
+function renderCart(){
+
+let box=document.getElementById("cartBox");
+let totalBox=document.getElementById("totalBox");
+
+let html="";
+let total=0;
+
+cart.forEach((i,index)=>{
+html+=`
+<div class="line">
+<span>${i.q}x ${i.n}</span>
+<span>$${i.p} <button class="del" onclick="removeItem(${index})">x</button></span>
+</div>`;
+
+if(i.color){
+html+=`<div class="small">🌸 Color: ${i.color}</div>`;
+}
+
+total+=i.p;
+});
+
+let msg=document.getElementById("msg");
+let fee=(msg && msg.value.trim()!=="") ? 5 : 0;
+
+if(fee){
+html+=`<div class="line"><span>Message/Decor</span><span>$5</span></div>`;
+}
+
+box.innerHTML=html || "🛒 Cart empty";
+totalBox.innerText="$"+(total+fee);
+}
+
+/* CUSTOM */
+function addCustom(){
+let type=document.getElementById("type").value;
+let qty=parseInt(document.getElementById("qty").value);
+let color=document.getElementById("flowerColor").value;
+
+if(!qty) return;
+
+add(type,Math.round(qty*price(type)),qty,color);
+}
+
+/* 💐 BOUQUET */
+function updateBouquetEstimate(){
+
+let total=0;
+
+function calc(n,el){
+total += (parseInt(el.value)||0) * price(n);
+}
+
+calc("Tulips",tulipQty);
+calc("Daisies",daisyQty);
+calc("Hibiscus",hibiscusQty);
+calc("Lilies",lilyQty);
+calc("Tiger Lilies",tigerQty);
+
+document.getElementById("bouquetEstimate").innerText =
+"Estimated Bouquet: $" + total.toFixed(2);
+}
+
+function addMix(){
+
+let total=0;
+let desc="";
+
+function line(n,q){
+q=parseInt(q)||0;
+if(q>0){
+total+=Math.round(q*price(n));
+desc+=`${q}x ${n}, `;
+}
+}
+
+line("Tulips",tulipQty.value);
+line("Daisies",daisyQty.value);
+line("Hibiscus",hibiscusQty.value);
+line("Lilies",lilyQty.value);
+line("Tiger Lilies",tigerQty.value);
+
+if(total===0){
+alert("Add flowers 💙");
+return;
+}
+
+let color=document.getElementById("bouquetColor")?.value||"";
+let mode=document.getElementById("bouquetColorMode")?.value||"";
+
+cart.push({
+n:"💐 Bouquet",
+p:total,
+q:1,
+extra:desc + " | " + mode + " | " + color
+});
+
+renderCart();
+}
+
+/* ORDER TEXT */
+function getOrderText(){
+
+let total=0;
+let text="🧾 MARTINEZ FLOWERS ORDER\n\n";
+
+cart.forEach(i=>{
+text+=`${i.q}x ${i.n} - $${i.p}\n`;
+if(i.color) text+=`Color: ${i.color}\n`;
+if(i.extra) text+=i.extra+"\n";
+total+=i.p;
+});
+
+let msg=document.getElementById("msg")?.value||"";
+let method=document.getElementById("method")?.value||"";
+let date=document.getElementById("date")?.value||"";
+let time=document.getElementById("time")?.value||"";
+let pay=document.getElementById("payment")?.value||"";
+let address=document.getElementById("address")?.value||"";
+let flowerTheme=document.getElementById("flowerTheme")?.value||"";
+let paper=document.getElementById("paper")?.value||"";
+
+if(method==="Delivery"){
+text+=`\n📍 Address: ${address}`;
+}
+
+if(msg.trim()!==""){
+total+=5;
+text+="\n+ $5 Message/Decor";
+}
+
+text+=`\n\n📦 ${method}`;
+text+=`\n📅 ${date} ${time}`;
+text+=`\n💳 ${pay}`;
+text+=`\n🌸 Theme: ${flowerTheme}`;
+text+=`\n📄 Paper: ${paper}`;
+text+=`\n💵 TOTAL: $${total}`;
+
+return text;
+}
+
+/* COPY + SEND */
+function copyOrder(){
+navigator.clipboard.writeText(getOrderText());
+alert("Copied 💙");
+}
+
+function sendOrder(){
+window.open("sms:2017365461&body="+encodeURIComponent(getOrderText()));
+}
+
+/* CHECKOUT */
+function checkout(){
+alert("Order placed 💙");
+cart=[];
+renderCart();
+}
+</script>
+
+<!-- HOME -->
+<div id="home" class="page active">
+<div class="card">
+<h3>🌼 My Story</h3>
+
+<p>I’ve always been the kind of person who jumps from hobby to hobby.</p>
+
+<p>One week it’s drawing, the next something new. I always got excited but rarely stayed.</p>
+
+<p>But then I found pipe cleaner flowers.</p>
+
+<p>This time I didn’t quit — I kept going, and it became something I’m proud of.</p>
+
+<p>Now I share it with others.</p>
+</div>
+</div>
+
+<!-- SHOP -->
+<div id="shop" class="page">
+
+<div class="card">
+<h3>🌷 Tulips</h3><button onclick="add('Tulips',9,7)">7 $9</button>
+</div>
+
+<div class="card">
+<h3>🌼 Daisies</h3><button onclick="add('Daisies',8,7)">7 $8</button>
+</div>
+
+<div class="card">
+<h3>🌺 Hibiscus</h3><button onclick="add('Hibiscus',12,7)">7 $12</button>
+</div>
+
+<div class="card">
+<h3>🤍 Lilies</h3><button onclick="add('Lilies',12,7)">7 $12</button>
+</div>
+
+<div class="card">
+<h3>🐯 Tiger Lilies</h3><button onclick="add('Tiger Lilies',13,7)">7 $13</button>
+</div>
+
+<!-- 💐 BOUQUET -->
+<div class="card">
+<h3>💐 Bouquet Builder</h3>
+
+<input id="tulipQty" placeholder="Tulips" oninput="updateBouquetEstimate()">
+<input id="daisyQty" placeholder="Daisies" oninput="updateBouquetEstimate()">
+<input id="hibiscusQty" placeholder="Hibiscus" oninput="updateBouquetEstimate()">
+<input id="lilyQty" placeholder="Lilies" oninput="updateBouquetEstimate()">
+<input id="tigerQty" placeholder="Tiger Lilies" oninput="updateBouquetEstimate()">
+
+<select id="bouquetColorMode">
+<option>Same Color</option>
+<option>Mixed Colors</option>
+</select>
+
+<input id="bouquetColor" placeholder="Flower color theme">
+
+<p id="bouquetEstimate">Estimated Bouquet: $0</p>
+
+<button onclick="addMix()">Add Bouquet</button>
+</div>
+
+</div>
+
+<!-- ORDER -->
+<div id="order" class="page">
+<div class="card">
+
+<select id="method">
+<option>Pickup</option>
+<option>Delivery</option>
+</select>
+
+<input id="address" placeholder="Address">
+<input type="date" id="date">
+<input type="time" id="time">
+
+<textarea id="msg" placeholder="Message (+$5)"></textarea>
+
+<select id="payment">
+<option>Apple Pay</option>
+<option>Zelle</option>
+<option>Cash</option>
+<option>PayPal</option>
+</select>
+
+<input id="flowerTheme" placeholder="Flower Theme">
+<input id="paper" placeholder="Paper Color">
+
+</div>
+</div>
+
+<!-- CART -->
+<div id="cart" class="page">
+<div class="card">
+
+<h3>🛒 Cart</h3>
+<div id="cartBox">Empty</div>
+
+<div class="total">
+Total: <span id="totalBox">$0</span>
+</div>
+
+<button onclick="checkout()">Checkout</button>
+<button onclick="copyOrder()">Copy</button>
+<button onclick="sendOrder()">Send</button>
+
+</div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+<div class="card">
+<h3>📲 Contact</h3>
+<p>201-736-5461</p>
+
+<button onclick="window.open('https://www.tiktok.com/@martinezs.flowers?_r=1&_t=ZT-95flhn8xJzp')">
+💙 TikTok
+</button>
+</div>
+</div>
+
+</div>
+
+<!-- NAV -->
+<div class="nav">
+<button onclick="show('home')">Home</button>
+<button onclick="show('shop')">Shop</button>
+<button onclick="show('order')">Order</button>
+<button onclick="show('cart')">Cart</button>
+<button onclick="show('contact')">Contact</button>
+</div>
+
+</body>
+</html>
