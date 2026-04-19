@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martinez’s Flower Designs 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Pacifico', cursive;
+  background: linear-gradient(#d9ecff, #b3d1ff);
+  color: #1f2a44;
+}
+
+header {
+  background: #4d8dff;
+  text-align: center;
+  padding: 25px;
+  font-size: 28px;
+  color: white;
+}
+
+section {
+  padding: 25px 15px;
+  text-align: center;
+}
+
+.card {
+  background: white;
+  margin: 15px auto;
+  padding: 15px;
+  max-width: 340px;
+  border-radius: 20px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+input, textarea {
+  width: 80%;
+  padding: 10px;
+  margin: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #2f5fbf;
+  border: none;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #1f4aa8;
+}
+
+/* COLORS */
+.color-btn {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+.pink { background: #ff6fb1; }
+.blue { background: #4d8dff; }
+.white { background: #eaeaea; color: black; }
+.purple { background: #9b6bff; }
+.yellow { background: #ffd24d; color: black; }
+
+.selected {
+  outline: 3px solid black;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+💙 Martinez’s Flower Designs 💙
+</header>
+
+<section>
+<p>Blue Hello Kitty inspired flowers 🎀</p>
+<p>Custom mix & match ✨</p>
+</section>
+
+<!-- PRICES -->
+<section>
+<h2>Prices 💙</h2>
+
+<div class="card">
+  <p>🌷 Tulips</p>
+  <p>7 for $10 | 15 for $19 | 25 for $35</p>
+</div>
+
+<div class="card">
+  <p>🌼 Daisies</p>
+  <p>7 for $9 | 15 for $18 | 25 for $33</p>
+</div>
+
+<div class="card">
+  <p>🌺 Hibiscus</p>
+  <p>7 for $12 | 15 for $28 | 25 for $50</p>
+</div>
+
+<div class="card">
+  <p>🐯 Tiger Lilies</p>
+  <p>7 for $13 | 15 for $29 | 25 for $55</p>
+</div>
+
+<div class="card">
+  <p>🤍 Lilies</p>
+  <p>7 for $12 | 15 for $28 | 25 for $50</p>
+</div>
+</section>
+
+<!-- COLORS -->
+<section>
+<h2>Mix & Match 🎨</h2>
+
+<div class="card">
+<p>Select colors:</p>
+
+<button class="color-btn pink" onclick="pick(this)">Pink</button>
+<button class="color-btn blue" onclick="pick(this)">Blue</button>
+<button class="color-btn white" onclick="pick(this)">White</button>
+<button class="color-btn purple" onclick="pick(this)">Purple</button>
+<button class="color-btn yellow" onclick="pick(this)">Yellow</button>
+
+<p id="colorText">No colors selected</p>
+</div>
+</section>
+
+<!-- ORDER -->
+<section>
+<h2>Order 💌</h2>
+
+<input id="name" placeholder="Your Name"><br>
+<input id="flower" placeholder="Flower Type"><br>
+<input id="bundle" placeholder="Bundle (7 / 15 / 25)"><br>
+<textarea id="notes" placeholder="Extra details"></textarea><br>
+
+<button onclick="makeOrder()">Generate Order Message</button>
+<button onclick="copyOrder()">Copy Message</button>
+<button onclick="openTikTok()">Send on TikTok 💙</button>
+
+<div class="card">
+<p id="output">Your order will appear here 💙</p>
+</div>
+
+<p>Payment: Cash / Apple Pay / Zelle</p>
+</section>
+
+<script>
+
+let colors = [];
+
+function pick(btn) {
+  let c = btn.innerText;
+
+  btn.classList.toggle("selected");
+
+  if (colors.includes(c)) {
+    colors = colors.filter(x => x !== c);
+  } else {
+    colors.push(c);
+  }
+
+  document.getElementById("colorText").innerText =
+    colors.length ? "Colors: " + colors.join(", ") : "No colors selected";
+}
+
+function makeOrder() {
+  let msg =
+`💙 NEW ORDER 💙
+
+Name: ${document.getElementById("name").value}
+Flower: ${document.getElementById("flower").value}
+Bundle: ${document.getElementById("bundle").value}
+Colors: ${colors.join(", ") || "None"}
+Notes: ${document.getElementById("notes").value || "None"}
+
+Send to: @martinezs.flowers
+Payment: Cash / Apple Pay / Zelle`;
+
+  document.getElementById("output").innerText = msg;
+}
+
+function copyOrder() {
+  navigator.clipboard.writeText(document.getElementById("output").innerText);
+  alert("Copied 💙");
+}
+
+function openTikTok() {
+  window.open("https://www.tiktok.com/@martinezs.flowers");
+}
+
+</script>
+
+</body>
+</html>
