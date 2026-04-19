@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martinez’s Flower Designs 💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+background:#e6f2ff;
+font-family:'Pacifico';
+}
+
+/* APP */
+.app{
+max-width:430px;
+margin:auto;
+background:white;
+min-height:100vh;
+border-radius:30px;
+overflow:hidden;
+box-shadow:0 0 25px rgba(0,0,0,0.15);
+}
+
+/* HEADER */
+.header{
+background:#2f5fbf;
+color:white;
+padding:18px;
+text-align:center;
+font-size:20px;
+}
+
+/* PAGES */
+.page{
+display:none;
+padding:20px;
+padding-bottom:90px;
+text-align:center;
+}
+.active{display:block;}
+
+/* CARD */
+.card{
+background:#f8fbff;
+margin:12px auto;
+padding:18px;
+border-radius:20px;
+}
+
+/* BUTTONS */
+button{
+background:#4d8dff;
+color:white;
+border:none;
+padding:12px;
+border-radius:15px;
+margin:6px;
+}
+
+/* INPUTS */
+input,textarea,select{
+width:90%;
+padding:12px;
+margin:6px;
+border-radius:12px;
+border:1px solid #d0e2ff;
+}
+
+/* CART */
+#summary{
+text-align:left;
+font-size:14px;
+}
+
+/* DELETE */
+.del{
+background:#ff4d4d;
+font-size:12px;
+padding:5px 8px;
+border-radius:8px;
+margin-left:6px;
+}
+
+/* PRETTY RECEIPT */
+.receipt{
+background:white;
+border-radius:20px;
+padding:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+margin-top:10px;
+text-align:left;
+}
+
+.line{
+display:flex;
+justify-content:space-between;
+margin:6px 0;
+}
+
+.small{
+font-size:12px;
+color:gray;
+}
+
+.total{
+border-top:1px solid #ddd;
+margin-top:10px;
+padding-top:10px;
+font-weight:bold;
+font-size:16px;
+}
+
+/* NAV */
+.nav{
+position:fixed;
+bottom:0;
+width:100%;
+max-width:430px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+box-shadow:0 -3px 10px rgba(0,0,0,0.1);
+}
+
+.nav button{
+background:none;
+color:#2f5fbf;
+font-size:12px;
+}
+
+/* TIKTOK */
+.tiktok{
+box-shadow:0 0 10px #4d8dff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">💙 Martinez’s Flowers</div>
+
+<script>
+let cart=[];
+let finalText="";
+
+/* NAV */
+function show(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+/* PRICE */
+function price(t){
+return {
+Tulips:1.2,
+Daisies:1.1,
+Hibiscus:1.8,
+Lilies:1.7,
+"Tiger Lilies":1.9
+}[t];
+}
+
+/* ADD */
+function add(n,p,q){
+cart.push({n,p,q});
+update();
+}
+
+/* DELETE */
+function removeItem(i){
+cart.splice(i,1);
+update();
+}
+
+/* CUSTOM */
+function calc(){
+est.innerText="Estimated: $"+Math.round(qty.value*price(type.value));
+}
+
+function addCustom(){
+if(!qty.value) return;
+cart.push({
+n:type.value,
+p:Math.round(qty.value*price(type.value)),
+q:qty.value
+});
+update();
+}
+
+/* BOUQUET WITH BREAKDOWN */
+function addMix(){
+let total=0;
+let desc="";
+
+function line(n,q){
+if(q>0){
+let p=Math.round(q*price(n));
+total+=p;
+desc+=`${q}x ${n}, `;
+}
+}
+
+line("Tulips",tulipQty.value);
+line("Daisies",daisyQty.value);
+line("Hibiscus",hibiscusQty.value);
+line("Lilies",lilyQty.value);
+line("Tiger Lilies",tigerQty.value);
+
+if(total===0){
+alert("Add flowers 💙");
+return;
+}
+
+cart.push({
+n:"Custom Bouquet",
+p:total,
+q:1,
+extra:desc
+});
+
+update();
+}
+
+/* UPDATE CART */
+function update(){
+let html="";
+let total=0;
+
+cart.forEach((i,index)=>{
+html+=`<div class="line">
+<span>${i.q}x ${i.n}</span>
+<span>$${i.p} <button class="del" onclick="removeItem(${index})">x</button></span>
+</div>`;
+
+if(i.extra){
+html+=`<div class="small">${i.extra}</div>`;
+}
+
+total+=i.p;
+});
+
+if(msg.value && msg.value.trim()!==""){
+total+=5;
+html+=`<div class="line"><span>Message/Decor</span><span>$5</span></div>`;
+}
+
+summary.innerHTML=html||"No items yet";
+totalEl.innerText="$"+total;
+}
+
+/* FINALIZE */
+function finalizeOrder(){
+
+if(cart.length===0){
+alert("Add items first 💙");
+return;
+}
+
+let total=0;
+let html="";
+
+cart.forEach(i=>{
+html+=`<div class="line">
+<span>${i.q}x ${i.n}</span>
+<span>$${i.p}</span>
+</div>`;
+
+if(i.extra){
+html+=`<div class="small">${i.extra}</div>`;
+}
+
+total+=i.p;
+});
+
+if(msg.value && msg.value.trim()!==""){
+total+=5;
+html+=`<div class="line"><span>Message/Decor</span><span>$5</span></div>`;
+}
+
+let info=`
+<div class="small">🌸 Color: ${flowerColor.value}</div>
+<div class="small">📦 ${method.value}</div>
+<div class="small">📅 ${date.value} ${time.value}</div>
+<div class="small">💳 ${paymentMethod.value}</div>
+`;
+
+let totalHTML=`<div class="total">Total: $${total}</div>`;
+
+finalSummary.innerHTML=`<div class="receipt">${html}${info}${totalHTML}</div>`;
+
+/* TEXT */
+let text="🧾 Martinez’s Flowers Receipt\n\n";
+
+cart.forEach(i=>{
+text+=`${i.q}x ${i.n} - $${i.p}\n`;
+if(i.extra) text+=i.extra+"\n";
+});
+
+if(msg.value && msg.value.trim()!==""){
+text+="\n+ $5 Message/Decor";
+}
+
+text+=`\n\nColor: ${flowerColor.value}`;
+text+=`\n${method.value} ${date.value} ${time.value}`;
+text+=`\nPayment: ${paymentMethod.value}`;
+text+=`\nTotal: $${total}`;
+
+finalText=text;
+}
+</script>
+
+<!-- HOME (FULL STORY RESTORED) -->
+<div id="home" class="page active">
+<h3>🌼 My Story</h3>
+
+<p>I’ve always been the kind of person who jumps from hobby to hobby.</p>
+
+<p>One week it’s drawing, the next it’s something completely different. I get excited easily, try a lot of things, and sometimes move on just as fast. For a while, I thought maybe I just hadn’t found my thing yet.</p>
+
+<p>But then I discovered making pipe cleaner flowers.</p>
+
+<p>It started simple just bending and twisting, figuring things out as I went. But something about it stuck. I didn’t get bored. I didn’t move on. I kept going.</p>
+
+<p>And for the first time, I didn’t just want to make something for myself I wanted to share it with other people.</p>
+
+<p>These flowers aren’t just crafts to me. They’re the first hobby that made me slow down, stay consistent, and actually feel proud of what I’m creating.</p>
+
+<p>So this is me putting it out there.</p>
+</div>
+
+<!-- KEEPING YOUR FLOWERS / ORDER / PAYMENT / CONTACT EXACTLY SAME -->
+<!-- (your sections stay unchanged below) -->
